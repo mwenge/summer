@@ -187,7 +187,9 @@ var summerHtmlImageMapCreator = (function() {
                 DELETE : 46,
                 I      : 73,
                 S      : 83,
-                C      : 67
+                N      : 78,
+                C      : 67,
+                O      : 79,
             };
 
         function recalcOffsetValues() {
@@ -379,6 +381,18 @@ var summerHtmlImageMapCreator = (function() {
                     
                     break;
                 
+                case KEYS.N:
+                    app.saveInLocalStorage();
+                    app.clear()
+                    app.loadNextImage();
+    
+                    break;
+                
+                case KEYS.O:
+                    app.download();
+    
+                    break;
+
                 case KEYS.S:
                     if (ctrlDown) {
                         app.saveInLocalStorage();
@@ -429,10 +443,10 @@ var summerHtmlImageMapCreator = (function() {
             return {
                 save : function() {
                     var result = areasIO.toJSON();
-                    window.localStorage.setItem(KEY_NAME, result);
+                    window.localStorage.setItem(state.image.src, result);
                     console.info('Editor ' + result + ' saved');
+                    console.info(result.img);
                 
-                    alert('Saved');
                 },
                 restore : function() {
                     areasIO.fromJSON(window.localStorage.getItem(KEY_NAME));
@@ -475,6 +489,32 @@ var summerHtmlImageMapCreator = (function() {
                        .recalcOffsetValues();
                 };
                 return this;
+            },
+            loadNextImage : function() {
+                var inscriptionsToLoad = Array.from(inscriptions.keys())[Symbol.iterator]();
+                for (var i = 0; i < 2000; i++) {
+                  var key = inscriptionsToLoad.next().value;
+                  var inscription = inscriptions.get(key);
+                  var imageToLoad = inscription.tracingImages[0];
+                  var inStorage = window.localStorage.getItem(imageToLoad);
+                  if (!inStorage) {
+                    app.loadImage(inscription.tracingImages[0]);
+                    break;
+                  }
+                }
+                return this;
+            },
+            download : function() {
+              var output = "";
+              for (var i = 0; i < window.localStorage.length; i++) {
+                var key = window.localStorage.key(i);
+                var val = window.localStorage.getItem(key);
+                output += val + ',\n';
+              }
+              let a = document.createElement('a');
+              a.href = "data:application/octet-stream,"+encodeURIComponent(output);
+              a.download = 'abc.txt';
+              a.click();
             },
             preview : (function() {
                 domElements.img.setAttribute('usemap', '#map');
@@ -927,9 +967,7 @@ var summerHtmlImageMapCreator = (function() {
          * @property attributes {Object} - attributes of this area (e.g. 'href', 'title')
          */
         return {
-            type : this._type,
             coords : this._coords,
-            attributes : this._attributes
         };
     };
     
@@ -2653,7 +2691,7 @@ var summerHtmlImageMapCreator = (function() {
         };
     })();
     get_image.show();
-    
+    app.loadNextImage();
 
     /* Buttons and actions */
     var buttons = (function() {
@@ -2810,3 +2848,4 @@ var summerHtmlImageMapCreator = (function() {
     })();
 
 })();
+

@@ -499,6 +499,8 @@ var summerHtmlImageMapCreator = (function() {
                   var inStorage = window.localStorage.getItem(imageToLoad);
                   if (!inStorage) {
                     app.loadImage(inscription.tracingImages[0]);
+                    document.getElementById('inscription').textContent = inscription.parsedInscription;
+                    document.getElementById('title').textContent = inscription.name;
                     break;
                   }
                 }
@@ -512,8 +514,8 @@ var summerHtmlImageMapCreator = (function() {
                 output += val + ',\n';
               }
               let a = document.createElement('a');
-              a.href = "data:application/octet-stream,"+encodeURIComponent(output);
-              a.download = 'abc.txt';
+              a.href = "data:application/octet-stream," + encodeURIComponent(output);
+              a.download = 'letters-' + new Date().toISOString() + '.txt';
               a.click();
             },
             preview : (function() {

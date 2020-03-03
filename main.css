@@ -419,6 +419,40 @@ a:link, a:visited {
     opacity: 0.5;
     display: none;
 }
+@font-face {
+  font-family: 'LinearA';
+  font-style: normal;
+  font-weight: 400;
+  src: url(NotoSansLinearA-LinearB.ttf) format('truetype');
+}
+#title {
+    font-size: 10px;
+    text-align: center;
+    width: 500px;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.9);
+    margin-left: 35%;
+    z-index: 1002;
+    color: #FFF;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+}
+#inscription {
+    font-family: 'LinearA';
+    font-size: 30px;
+    width: 500px;
+    border-radius: 5px;
+    background: rgba(0,0,0,0.9);
+    margin-left: 35%;
+    z-index: 1002;
+    color: #FFF;
+    position: relative;
+    overflow: hidden;
+    display: block;
+    margin: 0 auto;
+}
 #from_html_wrapper {
     display: none;
     width: 500px;

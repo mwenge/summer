@@ -502,8 +502,24 @@ var summerHtmlImageMapCreator = (function() {
                   var inStorage = window.localStorage.getItem(imageToLoad);
                   if (!inStorage) {
                     app.loadImage(inscription.tracingImages[0]);
-                    document.getElementById('inscription').textContent = inscription.parsedInscription;
                     document.getElementById('title').textContent = inscription.name;
+
+                    var letters =  inscription.words.flat().filter(word => word != '\u{1076b}' && word != '\n' && word != '𐄁');
+                    letters = letters.join('').replace(/\u{1076b}/gu, "");
+                    var splitter = new GraphemeSplitter();
+                    
+                    var inscriptionElement = document.getElementById("inscription");
+                    inscriptionElement.textContent = "";
+                    var graphemes = splitter.splitGraphemes(letters);
+                    console.log(graphemes.length);
+                    for (var grapheme of graphemes) {
+                      var span = document.createElement("span");
+                      span.textContent = grapheme;
+                      inscriptionElement.appendChild(span);
+                    }
+                    var letterCount = splitter.countGraphemes(letters);
+                    document.getElementById('target').textContent = "Target: " + letterCount;
+                    document.getElementById("rects").textContent = "";
                     break;
                   }
                 }
@@ -604,6 +620,8 @@ var summerHtmlImageMapCreator = (function() {
             },
             addObject : function(object) {
                 state.areas.push(object);
+                document.getElementById("rects").textContent = state.areas.length;
+                document.getElementById("inscription").children[state.areas.length - 1].style.color = "red";
                 return this;
             },
             getNewArea : function() {

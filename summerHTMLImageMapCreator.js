@@ -496,6 +496,9 @@ var summerHtmlImageMapCreator = (function() {
                   var key = inscriptionsToLoad.next().value;
                   var inscription = inscriptions.get(key);
                   var imageToLoad = inscription.tracingImages[0];
+                  if (coordinates.has(imageToLoad)) {
+                    continue;
+                  }
                   var inStorage = window.localStorage.getItem(imageToLoad);
                   if (!inStorage) {
                     app.loadImage(inscription.tracingImages[0]);

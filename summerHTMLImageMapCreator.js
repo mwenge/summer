@@ -589,6 +589,7 @@ var summerHtmlImageMapCreator = (function() {
                     }
                 });
                 obj.remove();
+                document.getElementById("inscription").children[state.areas.length].style.color = "white";
                 return this;
             },
             deselectAll : function() {

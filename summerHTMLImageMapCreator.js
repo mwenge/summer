@@ -492,9 +492,13 @@ var summerHtmlImageMapCreator = (function() {
             },
             loadNextImage : function() {
                 var inscriptionsToLoad = Array.from(inscriptions.keys())[Symbol.iterator]();
-                for (var i = 0; i < 2000; i++) {
+                for (var i = 0; i < 4000; i++) {
                   var key = inscriptionsToLoad.next().value;
                   var inscription = inscriptions.get(key);
+                  console.log(key);
+                  if (!inscription) {
+                    continue;
+                  }
                   var imageToLoad = inscription.tracingImages[0];
                   if (coordinates.has(imageToLoad)) {
                     continue;
@@ -2285,6 +2289,7 @@ var summerHtmlImageMapCreator = (function() {
      * @returns {Polygon} - created polygon
      */
     Polygon.createAndStartDrawing = function(firstPointCoords) {
+        console.log(firstPointCoords);
         var newArea = new Polygon({
             points : [firstPointCoords],
             isOpened : true
